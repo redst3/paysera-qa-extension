@@ -1,0 +1,11 @@
+{
+  "name": "OpenAI integration demo extension",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "description": "This extension demonstrates how to integrate Paysera knowledge base with OpenAI to get responses to user questions.",
+  "action": {
+    "default_icon": "icon.png",
+    "default_popup": "index.html"
+  },
+  "permissions": ["activeTab", "storage", "scripting", "contextMenus"]
+}

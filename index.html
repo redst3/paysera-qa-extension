@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Easy Text Saver</title>
+    <link rel="stylesheet" type="text/css" href="main.css" />
+    <script src="answer.js"></script>
+  </head>
+  <body>
+    <div id="popup-body" class="popup">
+      <h2>OpenAI demo extension</h2>
+      <div id="top" class="top">
+        <div class="api-key">
+          <h4>API Key</h4>
+          <input id="key" />
+        </div>
+        <button id="api-key-submit">Submit</button>
+      </div>
+      <button id="api-key-reset" hidden>Reset API Key</button>
+
+      <h3>Selected question text</h3>
+      <div id="output" class="textfield"></div>
+      <button id="answer">Generate answer</button>
+      <h3>Generated response</h3>
+      <div id="answerField" class="textfield"></div>
+    </div>
+  </body>
+</html>
