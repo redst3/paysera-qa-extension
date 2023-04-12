@@ -2,27 +2,43 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Easy Text Saver</title>
+    <title>Paysera QA Bot</title>
     <link rel="stylesheet" type="text/css" href="main.css" />
-    <script src="answer.js"></script>
+    <script src="startup.js"></script>
   </head>
   <body>
     <div id="popup-body" class="popup">
-      <h2>OpenAI demo extension</h2>
+      <div class="logo">
+        <img src="logo.png" class="logo-img" />
+        <div class="status">
+          <div id="state" class="online"></div>
+          <h4 id="state_tag">ONLINE</h4>
+        </div>
+      </div>
       <div id="top" class="top">
         <div class="api-key">
-          <h4>API Key</h4>
-          <input id="key" />
+          <h4>API KEY</h4>
+          <input id="key" type="password" />
+          <button id="api-key-submit">APPLY</button>
         </div>
-        <button id="api-key-submit">Submit</button>
       </div>
-      <button id="api-key-reset" hidden>Reset API Key</button>
-
-      <h3>Selected question text</h3>
-      <div id="output" class="textfield"></div>
-      <button id="answer">Generate answer</button>
-      <h3>Generated response</h3>
-      <div id="answerField" class="textfield"></div>
+      <button id="api-key-reset" hidden>RESET API KEY</button>
+      <div id="input_field">
+        <h3>SELECTED TEXT</h3>
+        <textarea id="output" class="textfield"></textarea>
+      </div>
+      <button id="answerButton">SEND</button>
+      <script src="answer.js"></script>
+      <div id="answer_field" hidden>
+        <h3>GENERATED TEXT</h3>
+        <pre id="answerField" class="answerfield">
+        <div id="spin" class="spinner" hidden></div>
+      </pre>
+        <div class="language">
+          <h3>LANGUAGE</h3>
+          <span id="language" class="language-span"></span>
+        </div>
+      </div>
     </div>
   </body>
 </html>

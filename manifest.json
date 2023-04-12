@@ -1,11 +1,13 @@
 {
-  "name": "OpenAI integration demo extension",
-  "version": "1.0.0",
+  "name": "Paysera KBQA",
+  "version": "1.2.3",
   "manifest_version": 3,
-  "description": "This extension demonstrates how to integrate Paysera knowledge base with OpenAI to get responses to user questions.",
+  "description": "This extension demonstrates how to integrate Paysera knowledge base with OpenAI and get responses to user questions in any Language if the question is from knowledge base. Can only be used with OpenAI API key.",
+  "icons": { "16": "icon.png", "48": "icon.png", "128": "icon.png" },
   "action": {
     "default_icon": "icon.png",
     "default_popup": "index.html"
   },
+
   "permissions": ["activeTab", "storage", "scripting", "contextMenus"]
 }

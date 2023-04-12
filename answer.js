@@ -1,45 +1,21 @@
-window.onload = async function () {
-  chrome.storage.session.get(["key"]).then((result) => {
-    if (result.key) {
-      document.getElementById("top").hidden = true;
-      document.getElementById("api-key-reset").hidden = false;
-    }
-  });
-  document.getElementById("api-key-submit").onclick = async () => {
-    const apiKey = document.getElementById("key").value;
-    if (apiKey.length == 0) {
-      alert("API Key cannot be empty");
+document.addEventListener("DOMContentLoaded", function () {
+  document
+    .getElementById("answerButton")
+    .addEventListener("click", generateSuggestions);
+  function generateSuggestions() {
+    document.getElementById("top").hidden = true;
+    document.getElementById("api-key-reset").hidden = true;
+    document.getElementById("input_field").hidden = true;
+    document.getElementById("answer_field").hidden = false;
+    document.getElementById("spin").hidden = false;
+    document.getElementById("answerButton").hidden = true;
+    const question = document.getElementById("output").value;
+    if (question == "No text selected" || question.length == 0) {
+      document.getElementById("answerField").innerHTML = "No text selected";
       return;
     }
-    chrome.storage.session.set({ key: apiKey }).then(() => {
-      document.getElementById("top").hidden = true;
-      document.getElementById("api-key-reset").hidden = false;
-    });
-  };
-
-  const [tab] = await chrome.tabs.query({
-    active: true,
-    currentWindow: true,
-  });
-  let result;
-  try {
-    [{ result }] = await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      function: () => {
-        return getSelection().toString();
-      },
-    });
-    if (result.length > 0) document.getElementById("output").innerHTML = result;
-    else document.getElementById("output").innerHTML = "No text selected";
-  } catch (e) {
-    console.log(e);
-  }
-
-  document.getElementById("answer").onclick = async () => {
-    const question = document.getElementById("output").innerHTML;
-    if (question == "No text selected" || question.length == 0)
-      document.getElementById("answerField").innerHTML = "No text selected";
-
+    var urlRegex =
+      /(https?:\/\/)?[\w\-~]+(\.[\w\-~]+)+(\/[\w\-~@:%]*)*(#[\w\-]*)?(\?[^\s]*)?/gi;
     chrome.storage.session.get(["key"]).then((result) => {
       const key = result.key;
       if (key) {
@@ -48,22 +24,49 @@ window.onload = async function () {
           redirect: "follow",
         };
         fetch(
-          `http://localhost:5000/custom?key=${key}&question=${question}`,
+          `http://localhost:5000/question?key=${key}&question=${question}&model=gpt-4&extension=True`,
           requestOptions
         )
           .then((response) => response.text())
-          .then(
-            (result) =>
-              (document.getElementById("answerField").innerHTML = result)
+          .catch(
+            (e) =>
+              (document.getElementById("answerField").innerHTML =
+                e + ", server is down.")
           )
+          .then((result) => {
+            document.getElementById("spin").hidden = true;
+            if (result == "Bad API Key")
+              document.getElementById("answerField").innerHTML = result;
+            else {
+              answerJson = JSON.parse(result);
+              answer = answerJson["response"];
+              language = answerJson["language"];
+              console.log(answerJson);
+              try {
+                var urls = answer.match(urlRegex);
+                if (urls) {
+                  urls.forEach((element) => {
+                    console.log(element);
+                    if (isNaN(element)) {
+                      answer = answer.replace(
+                        element,
+                        `<a href="${element} target=_blank">${element}</a>`
+                      );
+                    }
+                  });
+                }
+              } finally {
+                document.getElementById("answerField").innerHTML = answer;
+                document.getElementById("language").innerHTML = language;
+              }
+            }
+          })
           .catch((error) => console.log("error", error));
-      } else alert("Please enter an API Key");
+      } else {
+        document.getElementById("answerField").innerHTML =
+          "Please enter an API Key";
+        document.getElementById("spin").hidden = true;
+      }
     });
-  };
-  document.getElementById("api-key-reset").onclick = async () => {
-    chrome.storage.session.set({ key: "" }).then(() => {
-      document.getElementById("top").hidden = false;
-      document.getElementById("api-key-reset").hidden = true;
-    });
-  };
-};
+  }
+});
