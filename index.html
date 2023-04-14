@@ -11,11 +11,12 @@
       <div class="logo">
         <img src="logo.png" class="logo-img" />
         <div class="status">
-          <div id="state" class="online"></div>
-          <h4 id="state_tag">ONLINE</h4>
+          <div id="state" class="offline"></div>
+          <h4 id="state_tag">OFFLINE</h4>
         </div>
       </div>
-      <div id="top" class="top">
+      <div id="spin-api" class="spinner"></div>
+      <div id="top" class="top" hidden>
         <div class="api-key">
           <h4>API KEY</h4>
           <input id="key" type="password" />
@@ -23,18 +24,25 @@
         </div>
       </div>
       <button id="api-key-reset" hidden>RESET API KEY</button>
+      <div id="mode" class="mode" hidden>
+        <h3>SELECTED MODE</h3>
+        <div>
+          <button id="mode-normal">NORMAL</button>
+          <button id="mode-knowledge">KNOWLEDGE BASE</button>
+        </div>
+      </div>
       <div id="input_field">
         <h3>SELECTED TEXT</h3>
         <textarea id="output" class="textfield"></textarea>
       </div>
-      <button id="answerButton">SEND</button>
+      <button id="answerButton" hidden>SEND</button>
       <script src="answer.js"></script>
       <div id="answer_field" hidden>
         <h3>GENERATED TEXT</h3>
         <pre id="answerField" class="answerfield">
         <div id="spin" class="spinner" hidden></div>
       </pre>
-        <div class="language">
+        <div id="lang" class="language">
           <h3>LANGUAGE</h3>
           <span id="language" class="language-span"></span>
         </div>

@@ -2,18 +2,25 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("answerButton")
     .addEventListener("click", generateSuggestions);
-  function generateSuggestions() {
+  async function generateSuggestions() {
     document.getElementById("top").hidden = true;
     document.getElementById("api-key-reset").hidden = true;
     document.getElementById("input_field").hidden = true;
     document.getElementById("answer_field").hidden = false;
     document.getElementById("spin").hidden = false;
     document.getElementById("answerButton").hidden = true;
+    document.getElementById("mode").hidden = true;
     const question = document.getElementById("output").value;
     if (question == "No text selected" || question.length == 0) {
       document.getElementById("answerField").innerHTML = "No text selected";
       return;
     }
+    const mode = await chrome.storage.session.get("mode");
+    if (mode.mode == undefined || mode.mode == "") {
+      document.getElementById("answerField").innerHTML = "No mode selected";
+      return;
+    }
+
     var urlRegex =
       /(https?:\/\/)?[\w\-~]+(\.[\w\-~]+)+(\/[\w\-~@:%]*)*(#[\w\-]*)?(\?[^\s]*)?/gi;
     chrome.storage.session.get(["key"]).then((result) => {
@@ -24,14 +31,14 @@ document.addEventListener("DOMContentLoaded", function () {
           redirect: "follow",
         };
         fetch(
-          `http://localhost:5000/question?key=${key}&question=${question}&model=gpt-4&extension=True`,
+          `http://127.0.0.1:5000/question?key=${key}&question=${question}&model=gpt-4&extension=True&mode=${mode.mode}`,
           requestOptions
         )
           .then((response) => response.text())
           .catch(
             (e) =>
               (document.getElementById("answerField").innerHTML =
-                e + ", server is down.")
+                e + ", server is down or is on a heavy load.")
           )
           .then((result) => {
             document.getElementById("spin").hidden = true;
@@ -57,7 +64,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
               } finally {
                 document.getElementById("answerField").innerHTML = answer;
-                document.getElementById("language").innerHTML = language;
+                if (language == undefined) {
+                  document.getElementById("lang").hidden = true;
+                } else {
+                  document.getElementById("language").innerHTML = language;
+                }
               }
             }
           })

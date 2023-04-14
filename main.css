@@ -131,11 +131,17 @@ button:hover {
   background: rgb(0, 140, 255);
 }
 .language {
-  display: flex;
   align-items: center;
   gap: 20px;
 }
 .language-span {
   font-size: 16px;
   font-style: italic;
+}
+.mode div {
+  display: flex;
+  gap: 10px;
+}
+.mode button {
+  height: 50px;
 }
