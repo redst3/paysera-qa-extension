@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
           redirect: "follow",
         };
         fetch(
-          `http://127.0.0.1:5000/question?key=${key}&question=${question}&model=gpt-4&extension=True&mode=${mode.mode}`,
+          `http://127.0.0.1:5000/question?key=${key}&question=${question}&model=gpt-4&mode=${mode.mode}`,
           requestOptions
         )
           .then((response) => response.text())
@@ -43,7 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
           .then((result) => {
             document.getElementById("spin").hidden = true;
             if (result == "Bad API Key")
-              document.getElementById("answerField").innerHTML = result;
+              document.getElementById("answerField").innerHTML =
+                "Something went wrong. Please try again later or check your API Key.";
             else {
               answerJson = JSON.parse(result);
               answer = answerJson["response"];
