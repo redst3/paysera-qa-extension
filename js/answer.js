@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
           redirect: "follow",
         };
         fetch(
-          `http://127.0.0.1:5000/question?key=${key}&question=${question}&model=gpt-4&mode=${mode.mode}`,
+          `http://127.0.0.1:9000/question?key=${key}&question=${question}&model=gpt-4&mode=${mode.mode}`,
           requestOptions
         )
           .then((response) => response.text())

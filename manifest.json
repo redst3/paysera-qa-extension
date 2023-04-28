@@ -3,9 +3,13 @@
   "version": "1.2.3",
   "manifest_version": 3,
   "description": "This extension demonstrates how to integrate Paysera knowledge base with OpenAI and get responses to user questions in any Language if the question is from knowledge base. Can only be used with OpenAI API key.",
-  "icons": { "16": "icon.png", "48": "icon.png", "128": "icon.png" },
+  "icons": {
+    "16": "images/icon.png",
+    "48": "images/icon.png",
+    "128": "images/icon.png"
+  },
   "action": {
-    "default_icon": "icon.png",
+    "default_icon": "images/icon.png",
     "default_popup": "index.html"
   },
 
